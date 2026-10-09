@@ -697,25 +697,6 @@ export const appSettings = sqliteTable("app_settings", {
 		.$defaultFn(() => new Date()),
 });
 
-export const licenseSettings = sqliteTable("license_settings", {
-	id: text("id").primaryKey(),
-	instanceId: text("instance_id").notNull().unique(),
-	instanceUrl: text("instance_url"),
-	licenseKeyHash: text("license_key_hash"),
-	plan: text("plan", { enum: ["community", "pro", "team"] }).notNull().default("community"),
-	state: text("state", { enum: ["inactive", "active", "invalid", "expired", "deactivated"] })
-		.notNull()
-		.default("inactive"),
-	features: text("features").notNull().default("[]"),
-	// Account seats from Paymug's seatLimit; null is unlimited. Rows predating seats keep one.
-	seatLimit: integer("seat_limit").default(1),
-	activatedAt: integer("activated_at", { mode: "timestamp" }),
-	validatedAt: integer("validated_at", { mode: "timestamp" }),
-	updatedAt: integer("updated_at", { mode: "timestamp" })
-		.notNull()
-		.$defaultFn(() => new Date()),
-});
-
 export const backups = sqliteTable(
 	"backups",
 	{
@@ -900,7 +881,6 @@ export const schema = {
 	backupSettings,
 	backups,
 	appSettings,
-	licenseSettings,
 	mailboxAgentSettings,
 	aiUsage,
 	agentConversations,
